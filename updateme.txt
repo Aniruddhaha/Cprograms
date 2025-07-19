@@ -25,3 +25,14 @@ m_conn_handle=0x0001
 (uint8_t *)reponse is pointer to the start message 
 &length   is nothing but the how many bytes to send
 m_conn_handle is nothing but whom to send to 
+
+
+
+
+
+NOW, new problem has started like 
+we are building a BLE device THAT receives commands with arguments, like 05L,3
+meaning 
+Command ID: 05L---> "LED control"
+Argument: 3-->which means that blink led at 3 Hz
+you must parse this command and extract the number from it 
