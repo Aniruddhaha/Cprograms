@@ -1,0 +1,27 @@
+Now we are going to understand the function call: - ble_nus_data_send(&m_nus,(uint8_t *)response,&length,M_conn_handler)
+Actually, goal is this send the string like "BAT=79%"to the connects phone via UART
+
+Step1: -Assume this char response[16];//buffer in RAM
+snprintf(respose,sizeof(response),"BAT=d%%",79)//fills BAT=79%
+uint16_t length=strlen(response);//8 bytes (BAT=79%)
+
+
+now run: - ble_nus_data_send(&m_nus,(uint8_t *)response, &length, m_conn_handle);
+
+1. where response is "BAT==79%"-->ASCII: 0x42 0x41 0x54 0x3D 0x37 0x39 0x25 0x00 : - Which is 8 bytes including the null terminator  
+2. length =8(number of characters in "BAT=79%") : - actually it is the size of the message to be send
+3.m_conn_handle =0x0001 ; - Which is the Handle of current BLE connection
+4. &m_nus=0x20001000 : - which is the address of the nus service instance 
+
+response:
++-------+-------+-------+-------+-------+-------+-------+--------+
+|    'B'     |    'A'    |   'T'     |    '='    |   '7'     |   '9'     |    '%'   |   '\0'      |
+|  0x42   | 0z42    | 0x54   | 0x3D   | 0x37   | 0x39   | 0x25   | 0x00     |
+
+length=8
+m_conn_handle=0x0001
+
+&m_nus is the pointer to the UART service object 
+(uint8_t *)reponse is pointer to the start message 
+&length   is nothing but the how many bytes to send
+m_conn_handle is nothing but whom to send to 
